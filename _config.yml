@@ -11,10 +11,10 @@ baseurl: /
 # Website info
 title: syntegris security blog
 description: Security Blog
-cover: /assets/images/blog-cover.jpg
-logo: /assets/images/blog-icon.png
-logo_dark: /assets/images/favicon.png
-favicon: /assets/images/favicon.png
+cover: assets/images/blog-cover.jpg
+logo: assets/images/blog-icon.png
+logo_dark: assets/images/favicon.png
+favicon: assets/images/favicon.png
 CNAME: #add cname for website to be created
 
 # Social info
@@ -60,12 +60,12 @@ feed:
 safe: False
 lsi: False
 username: syntegris-sec
-repo: syntegris-sec
-branch: master
+repo: syntegris-sec.github.io
+branch: main
 relative_source: ../jasper2
-destination: ../jasper2-pages
+destination: ../_site
 production_url:  https://syntegris-sec.github.io/
-source_url:  https://github.com/syntegris-sec/syntegris-sec/
+source_url:  https://github.com/syntegris-sec/syntegris-sec.github.io
 
 exclude:
   - assets/css
