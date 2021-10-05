@@ -109,7 +109,7 @@ An attacker can upload an HTML file with malicious javascript code. The code is 
 
 
 ## Exploit Chain
-We published a [Proof of Concept]() that exploits *CVE-2021-35503* and *CVE-2021-35505*.
+We published a [Proof of Concept](https://www.exploit-db.com/exploits/50313) that exploits *CVE-2021-35503* and *CVE-2021-35505*.
 The code injects Javascript into the Activity Log Feed, that triggers the Remote Code Execution as soon as the administrator visits the page.
 This will upload a *shell.php* file in the web root.
 
