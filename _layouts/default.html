@@ -12,11 +12,11 @@
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Styles'n'Scripts -->
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/built/screen.css" />
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/built/screen.edited.css" />
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/built/syntax.css" />
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}assets/built/screen.edited.css" />
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}assets/built/syntax.css" />
     <!-- highlight.js -->
-    <link rel="stylesheet" href="{{ site.baseurl }}/static/css/highlight.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}static/css/highlight.css">
     <style>.hljs { background: none; }</style>
 
     <!--[if IE]>
@@ -72,7 +72,7 @@
     </div>
 
     <!-- highlight.js -->
-    <script type="text/javascript" src="{{ site.baseurl }}/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ site.baseurl }}static/js/jquery.min.js"></script>
     <script>$(document).ready(function() {
       $('pre code').each(function(i, block) {
         hljs.highlightBlock(block);
@@ -80,7 +80,7 @@
     });</script>
 
     <!-- jQuery + Fitvids, which makes all video embeds responsive -->
-    <script type="text/javascript" src="{{ site.baseurl }}/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="{{ site.baseurl }}assets/js/jquery.fitvids.js"></script>
 
     <!-- Paginator increased to "infinit" in _config.yml -->
     <!-- if paginator.posts  -->
@@ -94,7 +94,7 @@
     <script>
         var maxPages = parseInt('{{ paginator.total_pages }}');
     </script>
-    <script src="{{ site.baseurl }}/assets/js/infinitescroll.js"></script>
+    <script src="{{ site.baseurl }}assets/js/infinitescroll.js"></script>
     {% endif %}
 
     <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
