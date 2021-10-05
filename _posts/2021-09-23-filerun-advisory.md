@@ -10,6 +10,7 @@ tags: [advisory]
 class: post-template
 subclass: 'post'
 author: chris
+demo: assets/filerun.2021.35503.and.35505.small.mp4
 ---
 
 We discovered multiple vulnerabilities in [Filerun](https://filerun.com) <= 2021.03.26.
@@ -115,7 +116,7 @@ This will upload a *shell.php* file in the web root.
 
 
 ## Demo
-![Demo](assets/filerun.2021.35503.and.35505.gif)
+{% include demo-video.html %}
 
 
 **Thanks to the Filerun team to address these findings immediately.**
