@@ -53,6 +53,12 @@ Connection: close
 username=filerun&password=password&otp=&two_step_secret=&language=
 ```
 
+The severity can be summarized as critical.
+
+An unauthenticated remote attacker will gain access to data shared by other users. 
+He could edit the files or put the application in maintenance mode, which would impact availability.
+He could become an administrator user by stealing sessions or exploit other vulnerabilities in this Filerun version.
+
 ## CVE-2021-35504
 An attacker with access to the admin backend can abuse the *checkFFmpeg* action to trigger code execution in the context of the webserver user.
 
@@ -78,6 +84,12 @@ Connection: close
 
 path=ffmpeg%7Cecho%20%60ls%60
 ```
+
+The severity can be summarized as high.
+
+The attacker requires access to a higher privileged account of the application (e.g. through *CVE-2021-35503*).
+He/She is able to escalate their privileges to the context of the web server user.
+
 
 ## CVE-2021-35505
 An attacker with access to the admin backend can abuse the *checkImageMagick* action to trigger code execution in the context of the webserver user.
@@ -105,8 +117,19 @@ Connection: close
 mode=exec&path=convert%7Cecho%20%60ls%60
 ```
 
+The severity can be summarized as high.
+
+The attacker requires access to a higher privileged account of the application (e.g. through *CVE-2021-35503*).
+He/She is able to escalate their privileges to the context of the web server user.
+
+
 ## CVE-2021-35506
 An attacker can upload an HTML file with malicious javascript code. The code is executes when a user views or edits this file using the HTML-Editor.
+
+The severity can be summarized as critical.
+
+A low privileged attacker will gain access to data shared by other users. He could edit the files or put the application in
+maintenance mode, which would impact availability. He could become an administrator user by stealing sessions (or trigger *CVE-2021-35504* or *CVE-2021-35505*).
 
 
 ## Exploit Chain
