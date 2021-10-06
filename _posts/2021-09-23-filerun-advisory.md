@@ -55,7 +55,7 @@ username=filerun&password=password&otp=&two_step_secret=&language=
 
 The severity can be summarized as critical.
 
-An unauthenticated remote attacker will gain access to data shared by other users. 
+An unauthenticated remote attacker will gain access to all files of all users. 
 He could edit the files or put the application in maintenance mode, which would impact availability.
 He could become an administrator user by stealing sessions or exploit other vulnerabilities in this Filerun version.
 
@@ -128,7 +128,7 @@ An attacker can upload an HTML file with malicious javascript code. The code is 
 
 The severity can be summarized as critical.
 
-A low privileged attacker will gain access to data shared by other users. He could edit the files or put the application in
+A low privileged attacker will gain access to all files of all users. He could edit the files or put the application in
 maintenance mode, which would impact availability. He could become an administrator user by stealing sessions (or trigger *CVE-2021-35504* or *CVE-2021-35505*).
 
 
